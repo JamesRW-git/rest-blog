@@ -33,4 +33,9 @@ public class UsersController {
         }
         return new User();
     }
+
+    @PostMapping
+    public void createUser(@RequestBody User newUser) {
+        System.out.println(newUser);
+    }
 }

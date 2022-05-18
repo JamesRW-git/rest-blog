@@ -18,8 +18,8 @@ public class UsersController {
 
     @GetMapping
     public List<User> getAll(){
-        userList.add(new User(1L, "User1", "user1@email.org", "securepassword123", new Date(100, Calendar.APRIL, 5), USER));
-        userList.add(new User(2L, "User2", "user2@email.org", "passwordsareforlosers", new Date(76, Calendar.FEBRUARY, 14), ADMIN));
+        userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));
+        userList.add(new User(2L, "User2", "user2@email.org", "passwordsareforlosers"));
 
         return userList;
     }
@@ -37,5 +37,16 @@ public class UsersController {
     @PostMapping
     public void createUser(@RequestBody User newUser) {
         System.out.println(newUser);
+    }
+
+    @PutMapping("{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        System.out.println(updatedUser);
+        System.out.println(id);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteUserById(@PathVariable Long id) {
+        System.out.println("Deleting user with ID: " + id);
     }
 }

@@ -5,22 +5,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.example.restblog.data.User.Role.ADMIN;
-import static com.example.restblog.data.User.Role.USER;
-
-
 @CrossOrigin
 @RestController
 @RequestMapping(value="/api/users", headers = "Accept=application/json")
 public class UsersController {
 
-    List<User> userList = new ArrayList<>();
+    private List<User> userList = setUserList();
 
-    @GetMapping
-    public List<User> getAll(){
+    private List<User> setUserList() {
+        List<User> userList = new ArrayList<>();
         userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));
         userList.add(new User(2L, "User2", "user2@email.org", "passwordsareforlosers"));
 
+        return userList;
+    }
+
+    @GetMapping
+    public List<User> getAll(){
         return userList;
     }
 
@@ -31,7 +32,7 @@ public class UsersController {
                 return user;
             }
         }
-        return new User();
+        return null;
     }
 
     @PostMapping

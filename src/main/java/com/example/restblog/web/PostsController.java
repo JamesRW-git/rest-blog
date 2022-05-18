@@ -31,7 +31,7 @@ public class PostsController {
                 return post;
             }
         }
-        return new Post();
+        return null;
     }
 
     @PostMapping

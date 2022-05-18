@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class User {
 
-    Long id;
-    String username;
-    String email;
-    String password;
-    LocalDateTime createdAt = LocalDateTime.now();
-    Role role = Role.USER;
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private Role role = Role.USER;
 
     public enum Role {USER, ADMIN}
 

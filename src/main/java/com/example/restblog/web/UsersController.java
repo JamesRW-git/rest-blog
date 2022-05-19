@@ -45,6 +45,16 @@ public class UsersController {
         return null;
     }
 
+    @GetMapping("/{email}")
+    public User getByEmail(@RequestParam String email) {
+        for (User user : getAll()) {
+            if(Objects.equals(user.getEmail(), email)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     @PostMapping
     public void createUser(@RequestBody User newUser) {
         System.out.println(newUser);

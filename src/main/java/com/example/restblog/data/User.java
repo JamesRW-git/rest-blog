@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class User {
 
-    private Long id;
+    private long id;
     private String username;
     private String email;
     private String password;
@@ -15,7 +15,7 @@ public class User {
 
     public enum Role {USER, ADMIN}
 
-    public User(Long id, String username, String email, String password) {
+    public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -25,11 +25,11 @@ public class User {
     public User() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -75,7 +75,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserIndex{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

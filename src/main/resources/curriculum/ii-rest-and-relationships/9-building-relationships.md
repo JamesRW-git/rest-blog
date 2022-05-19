@@ -10,14 +10,14 @@
 But let's talk about code.
 
 ---
-## The User and their Posts
+## The UserIndex and their Posts
 
 Let's think about the relationship between Users and Posts:
 
-- One `User` can author many `Posts`
-- One `Post` has one `User` as author.
+- One `UserIndex` can author many `Posts`
+- One `Post` has one `UserIndex` as author.
 
-We can implement this idea in our `Post` and `User` classes:
+We can implement this idea in our `Post` and `UserIndex` classes:
 
 ---
 ###TODO - Use Models to Build Relationships
@@ -27,10 +27,10 @@ Include the fields below in their respective classes and update their full const
 #### `Post`
 
 ```JAVA
-private User user;
+private UserIndex user;
 ```
 
-#### `User`
+#### `UserIndex`
 
 ```JAVA
 private Collection<Post> posts;

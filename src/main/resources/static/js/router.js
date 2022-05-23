@@ -42,7 +42,7 @@ export default function router(URI) {
         '/user': {
             returnView : UserIndex,
             state: {
-                user: '/api/users/1'
+                user: '/api/users/1' //TODO: come back and remove hardcoded user id(1) from route
             },
             uri: '/user',
             title: 'User',

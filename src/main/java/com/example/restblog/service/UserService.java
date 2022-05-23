@@ -1,7 +1,9 @@
 package com.example.restblog.service;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.data.PostsRepository;
 import com.example.restblog.data.User;
+import com.example.restblog.data.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,15 +12,20 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private List<User> userList = setUserList();
-    private List<Post> posts = setPostList();
+    private final UsersRepository usersRepository;
+    private final PostsRepository postsRepository;
 
-    public List<User> getUsersList() {
-        return userList;
+    public UserService(UsersRepository usersRepository, PostsRepository postsRepository) {
+        this.usersRepository = usersRepository;
+        this.postsRepository = postsRepository;
+    }
+
+    public List<User> getUsersList() { //TODO: rename this getAllUsers()
+        return usersRepository.findAll();
     }
 
     public List<Post> getPostList() {
-        return posts;
+        return postsRepository.findAll();
     }
 
     public void addPost(Post newPost, String username) {
@@ -31,54 +38,40 @@ public class UserService {
         // associate the user with the post object
         newPost.setUser(user);
 
-        // add the post to the post list (our pretend database)
-        posts.add(newPost);
+        // TODO: call postsRepository.save(newPost)
+        postsRepository.save(newPost);
     }
 
     // from UsersController
     public User getUserById(Long id) {
-        for (User user : userList) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+        //TODO: user usersRepository.findById(id).orElseThrow()
+        return usersRepository.findById(id).orElseThrow(); //throws an exception if the user cannot be found by id
     }
 
     // Taken from UsersController
     public User getUserByUsername(String username) {
-        for (User user : userList) {
-            if (user.getUsername().equals(username)){
-                return user;
-            }
-        }
-        return null;
+        return usersRepository.findByUsername(username);
     }
 
     public void deletePostById(Long id) {
-        for (Post post : posts) {
-            if (post.getId().equals(id)) {
-                posts.remove(post);
-                return;
-            }
-        }
+        postsRepository.deleteById(id);
     }
 
-    private List<User> setUserList() {
-        List<User> userList = new ArrayList<>();
-        userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));
-        userList.add(new User(2L, "User2", "user2@email.org", "passwordsareforlosers"));
-
-        return userList;
-    }
-
-    public List<Post> setPostList(){
-        List<Post> postList = new ArrayList<>();
-        postList.add(new Post(1L,"Cheese is great","Most people love cheese", userList.get(0)));
-        postList.add(new Post(2L,"What is sleep?", "Sleep is the cousin of death", userList.get(1)));
-        postList.add(new Post(3L,"Javelin vs. T-72BV", "Javelin wins", userList.get(0)));
-
-        return postList;
-    }
+//    private List<User> setUserList() {
+//        List<User> userList = new ArrayList<>();
+//        userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));
+//        userList.add(new User(2L, "User2", "user2@email.org", "passwordsareforlosers"));
+//
+//        return userList;
+//    }
+//
+//    public List<Post> setPostList(){
+//        List<Post> postList = new ArrayList<>();
+//        postList.add(new Post(1L,"Cheese is great","Most people love cheese", userList.get(0)));
+//        postList.add(new Post(2L,"What is sleep?", "Sleep is the cousin of death", userList.get(1)));
+//        postList.add(new Post(3L,"Javelin vs. T-72BV", "Javelin wins", userList.get(0)));
+//
+//        return postList;
+//    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,20 +14,20 @@ import java.util.Objects;
 @RequestMapping(value="/api/posts", headers = "Accept=application/json")
 public class PostsController {
 
-    List<Post> postList = new ArrayList<>();
+    private final UserService userService;
+
+    public PostsController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public List<Post> getAll(){
-        postList.add(new Post(1L,"Cheese is great","Most people love cheese"));
-        postList.add(new Post(2L,"What is sleep?", "Sleep is the cousin of death"));
-        postList.add(new Post(3L,"Javelin vs. T-72BV", "Javelin wins"));
-
-        return postList;
+        return userService.getPostList();
     }
 
     @GetMapping("/{id}")
     public Post getById(@RequestParam("id") Long id) {
-        for (Post post : getAll()) {
+        for (Post post : userService.getPostList()) {
             if(Objects.equals(post.getId(), id)) {
                 return post;
             }
@@ -39,10 +40,19 @@ public class PostsController {
         System.out.println(newPost);
     }
 
+    @PostMapping("{username}")
+    public void createByUsername(@PathVariable String username, @RequestBody Post newPost ) {
+        userService.addPost(newPost, username);
+    }
+
     @PutMapping("{id}")
     public void updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
-        System.out.println(updatedPost);
-        System.out.println(id);
+        for (Post post : userService.getPostList()) {
+            if(post.getClass().equals(id)) {
+                post.setContent(updatedPost.getContent());
+                post.setTitle(updatedPost.getTitle());
+            }
+        }
     }
 
     @DeleteMapping("{id}")

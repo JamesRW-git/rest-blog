@@ -2,20 +2,25 @@ package com.example.restblog.data;
 
 import javax.management.relation.Role;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
-    private long id;
+    private Long id;
     private String username;
     private String email;
     private String password;
     private LocalDateTime createdAt = LocalDateTime.now();
     private Role role = Role.USER;
 
+    //One user can have many posts
+    private List<Post> posts = new ArrayList<>();
+
     public enum Role {USER, ADMIN}
 
-    public User(long id, String username, String email, String password) {
+    public User(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -25,11 +30,11 @@ public class User {
     public User() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,6 +76,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

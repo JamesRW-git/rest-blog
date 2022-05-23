@@ -55,6 +55,15 @@ public class UserService {
         return null;
     }
 
+    public void deletePostById(Long id) {
+        for (Post post : posts) {
+            if (post.getId().equals(id)) {
+                posts.remove(post);
+                return;
+            }
+        }
+    }
+
     private List<User> setUserList() {
         List<User> userList = new ArrayList<>();
         userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));
@@ -65,9 +74,9 @@ public class UserService {
 
     public List<Post> setPostList(){
         List<Post> postList = new ArrayList<>();
-        postList.add(new Post(1L,"Cheese is great","Most people love cheese"));
-        postList.add(new Post(2L,"What is sleep?", "Sleep is the cousin of death"));
-        postList.add(new Post(3L,"Javelin vs. T-72BV", "Javelin wins"));
+        postList.add(new Post(1L,"Cheese is great","Most people love cheese", userList.get(0)));
+        postList.add(new Post(2L,"What is sleep?", "Sleep is the cousin of death", userList.get(1)));
+        postList.add(new Post(3L,"Javelin vs. T-72BV", "Javelin wins", userList.get(0)));
 
         return postList;
     }

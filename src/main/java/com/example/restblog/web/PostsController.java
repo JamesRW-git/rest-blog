@@ -57,6 +57,6 @@ public class PostsController {
 
     @DeleteMapping("{id}")
     public void deletePost(@PathVariable Long id) {
-        System.out.println("Deleting post with ID: " + id);
+        userService.deletePostById(id);
     }
 }

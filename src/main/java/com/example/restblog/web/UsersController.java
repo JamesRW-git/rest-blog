@@ -40,7 +40,7 @@ public class UsersController {
     @GetMapping("email")
     public User getByEmail(@RequestParam("email") String email) {
         System.out.println("Getting user with email: " + email);
-        return null;
+        return userService.getUserByEmail(email);
     }
 
     @PostMapping

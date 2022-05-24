@@ -57,6 +57,10 @@ public class UserService {
         postsRepository.deleteById(id);
     }
 
+    public User getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
 //    private List<User> setUserList() {
 //        List<User> userList = new ArrayList<>();
 //        userList.add(new User(1L, "User1", "user1@email.org", "securepassword123"));

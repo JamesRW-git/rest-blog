@@ -13,12 +13,20 @@ public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 100)
     private String title;
+
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne
-    @JsonIgnoreProperties("posts")
+    @JsonIgnoreProperties({"posts", "password"})
     private User user;
+
+//    @ManyToMany
+//    @JsonIgnoreProperties("posts")
+//    private Category category;
 
     public Post(Long id, String title, String content, User user) {
         this.id = id;

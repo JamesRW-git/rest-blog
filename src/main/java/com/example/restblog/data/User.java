@@ -6,6 +6,7 @@ import javax.management.relation.Role;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class User {
     //One user can have many posts
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
-    private List<Post> posts = new ArrayList<>();
+    private Collection<Post> posts;
 
     public enum Role {USER, ADMIN}
 
@@ -94,7 +95,7 @@ public class User {
         this.role = role;
     }
 
-    public List<Post> getPosts() {
+    public Collection<Post> getPosts() {
         return posts;
     }
 

@@ -80,6 +80,14 @@ public class Post {
         this.user = user;
     }
 
+    public Collection<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
         return "Post{" +

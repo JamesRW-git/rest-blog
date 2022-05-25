@@ -1,9 +1,6 @@
 package com.example.restblog.service;
 
-import com.example.restblog.data.Post;
-import com.example.restblog.data.PostsRepository;
-import com.example.restblog.data.User;
-import com.example.restblog.data.UsersRepository;
+import com.example.restblog.data.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,10 +11,12 @@ public class UserService {
 
     private final UsersRepository usersRepository;
     private final PostsRepository postsRepository;
+    private final CategoriesRepository categoriesRepository;
 
-    public UserService(UsersRepository usersRepository, PostsRepository postsRepository) {
+    public UserService(UsersRepository usersRepository, PostsRepository postsRepository, CategoriesRepository categoriesRepository) {
         this.usersRepository = usersRepository;
         this.postsRepository = postsRepository;
+        this.categoriesRepository = categoriesRepository;
     }
 
     public List<User> getUsersList() { //TODO: rename this getAllUsers()
@@ -38,7 +37,12 @@ public class UserService {
         // associate the user with the post object
         newPost.setUser(user);
 
-        // TODO: call postsRepository.save(newPost)
+        List<Category> categoriesToAdd = new ArrayList<>();
+
+        for (Category category : newPost.getCategories()){
+            categoriesToAdd.add(categoriesRepository.findCategoryByName(category.getName()));
+        }
+
         postsRepository.save(newPost);
     }
 

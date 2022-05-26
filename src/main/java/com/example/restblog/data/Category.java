@@ -13,7 +13,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
     @ManyToMany(
@@ -30,14 +30,7 @@ public class Category {
     @JsonIgnoreProperties("categories")
     private Collection<Post> posts;
 
-    public Category() {}
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

@@ -1,6 +1,7 @@
 package com.example.restblog.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
+@DynamicUpdate
 public class User {
 
     @Id
@@ -27,7 +29,7 @@ public class User {
     //One user can have many posts
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
-    private Collection<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     public enum Role {USER, ADMIN}
 
@@ -95,7 +97,7 @@ public class User {
         this.role = role;
     }
 
-    public Collection<Post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 

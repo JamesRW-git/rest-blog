@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
+//import com.example.restblog.service.EmailService;
 import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,13 @@ import java.util.Objects;
 public class PostsController {
 
     private final UserService userService;
+//    private final EmailService emailService;
 
-    public PostsController(UserService userService) {
+    public PostsController(UserService userService /*EmailService emailService*/) {
         this.userService = userService;
+//        this.emailService = emailService;
     }
+
 
     @GetMapping
     public List<Post> getAll(){
@@ -43,16 +47,12 @@ public class PostsController {
     @PostMapping("{username}")
     public void createByUsername(@PathVariable String username, @RequestBody Post newPost ) {
         userService.addPost(newPost, username);
+        emailService.prepareAndSend(newPost, "New Post: Blah" , "Blah");
     }
 
     @PutMapping("{id}")
     public void updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
-        for (Post post : userService.getPostList()) {
-            if(post.getClass().equals(id)) {
-                post.setContent(updatedPost.getContent());
-                post.setTitle(updatedPost.getTitle());
-            }
-        }
+        userService.updatePost(id, updatedPost);
     }
 
     @DeleteMapping("{id}")

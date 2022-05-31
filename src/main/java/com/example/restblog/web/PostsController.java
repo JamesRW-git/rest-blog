@@ -2,6 +2,7 @@ package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
 //import com.example.restblog.service.EmailService;
+import com.example.restblog.service.PostService;
 import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +17,24 @@ import java.util.Objects;
 public class PostsController {
 
     private final UserService userService;
+    private final PostService postService;
 //    private final EmailService emailService;
 
-    public PostsController(UserService userService /*EmailService emailService*/) {
+    public PostsController(UserService userService, PostService postService /*EmailService emailService*/) {
         this.userService = userService;
+        this.postService = postService;
 //        this.emailService = emailService;
     }
 
 
     @GetMapping
     public List<Post> getAll(){
-        return userService.getPostList();
+        return postService.getPostList();
     }
 
     @GetMapping("/{id}")
     public Post getById(@RequestParam("id") Long id) {
-        for (Post post : userService.getPostList()) {
+        for (Post post : postService.getPostList()) {
             if(Objects.equals(post.getId(), id)) {
                 return post;
             }
@@ -46,17 +49,17 @@ public class PostsController {
 
     @PostMapping("{username}")
     public void createByUsername(@PathVariable String username, @RequestBody Post newPost ) {
-        userService.addPost(newPost, username);
-        emailService.prepareAndSend(newPost, "New Post: Blah" , "Blah");
+        postService.addPost(newPost, username);
+//        emailService.prepareAndSend(newPost, "New Post: Blah" , "Blah");
     }
 
     @PutMapping("{id}")
     public void updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
-        userService.updatePost(id, updatedPost);
+        postService.updatePost(id, updatedPost);
     }
 
     @DeleteMapping("{id}")
     public void deletePost(@PathVariable Long id) {
-        userService.deletePostById(id);
+        postService.deletePostById(id);
     }
 }

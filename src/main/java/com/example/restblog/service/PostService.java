@@ -48,4 +48,22 @@ public class PostService {
 
         postsRepository.save(newPost);
     }
+
+    public void updatePost(long postId, Post post) {
+        Post postToUpdate = postsRepository.findById(postId).orElseThrow();
+
+        // TODO: Safety first!
+        if (post.getContent() != null && !post.getContent().isEmpty()) {
+            postToUpdate.setContent(post.getContent());
+        }
+        if (post.getTitle() != null && !post.getTitle().isEmpty()) {
+            postToUpdate.setTitle(post.getTitle());
+        }
+
+        postsRepository.save(postToUpdate);
+    }
+
+    public void deletePostById(long id) {
+        postsRepository.deleteById(id);
+    }
 }

@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,10 +16,19 @@ import java.util.*;
 public class UsersController {
 
     private final UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     //Inject userService
-    public UsersController(UserService userService) {
+    public UsersController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("create")
+    public void create(@RequestBody User newUser){
+        // TODO: inject the PasswordEncoder and set the incoming password as below
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        userService.createUser(newUser);
     }
 
     @GetMapping
@@ -40,7 +50,7 @@ public class UsersController {
     @GetMapping("email")
     public User getByEmail(@RequestParam("email") String email) {
         System.out.println("Getting user with email: " + email);
-        return userService.getUserByEmail(email);
+        return null;
     }
 
     @PostMapping
@@ -59,10 +69,5 @@ public class UsersController {
         User userToUpdate = getById(id);
         userToUpdate.setPassword(newPassword);
         System.out.println(userToUpdate.getPassword());
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteUserById(@PathVariable Long id) {
-        System.out.println("Deleting user with ID: " + id);
     }
 }

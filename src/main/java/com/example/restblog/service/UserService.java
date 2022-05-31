@@ -30,13 +30,13 @@ public class UserService {
         return usersRepository.findByUsername(username);
     }
 
-    public User getUserByEmail(String email) {
-        return usersRepository.findByEmail(email);
-    }
-
     public void updateEmail(Long userId, String newEmail) {
         User user = getUserById(userId);
         user.setEmail(newEmail);
+        usersRepository.save(user);
+    }
+
+    public void createUser(User user) {
         usersRepository.save(user);
     }
 }

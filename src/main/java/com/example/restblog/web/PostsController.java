@@ -2,6 +2,7 @@ package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
 //import com.example.restblog.service.EmailService;
+import com.example.restblog.dto.CreatePostDto;
 import com.example.restblog.service.PostService;
 import com.example.restblog.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +49,9 @@ public class PostsController {
     }
 
     @PostMapping("{username}")
-    public void createByUsername(@PathVariable String username, @RequestBody Post newPost ) {
-        postService.addPost(newPost, username);
-//        emailService.prepareAndSend(newPost, "New Post: Blah" , "Blah");
+    public void createByUsername(@PathVariable String username, @RequestBody CreatePostDto dto) {
+        Post newPost = new Post();
+        postService.addPost(dto, newPost, username);
     }
 
     @PutMapping("{id}")
@@ -61,5 +62,10 @@ public class PostsController {
     @DeleteMapping("{id}")
     public void deletePost(@PathVariable Long id) {
         postService.deletePostById(id);
+    }
+
+    @GetMapping("search")
+    public List<Post> searchPosts(@RequestParam String keyword) {
+        return postService.getPostsByTitleKeyword(keyword);
     }
 }

@@ -46,7 +46,7 @@ function createSubmitRegisterUserListener(){
             body: JSON.stringify(newUser)
         };
 
-        fetch("http://localhost:8080/api/users", options)
+        fetch("http://localhost:8080/api/users/create", options)
             .then((response) => {
                 console.log(response.status)
                 createView("/register");

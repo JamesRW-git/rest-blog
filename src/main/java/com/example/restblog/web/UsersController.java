@@ -3,7 +3,9 @@ package com.example.restblog.web;
 import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +31,11 @@ public class UsersController {
         // TODO: inject the PasswordEncoder and set the incoming password as below
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userService.createUser(newUser);
+    }
+
+    @GetMapping("me")
+    public User getCurrentUser(OAuth2Authentication auth){
+        return userService.getByEmail(auth.getName());
     }
 
     @GetMapping
@@ -64,6 +71,8 @@ public class UsersController {
         user.getPosts().add(newPost);
     }
 
+//    either the userid == current user or the current user is an admin
+    @PreAuthorize("hasAuthority('ADMIN') || @userService.getUserById(#id).email == authentication.name")
     @PutMapping("{id}/updatePassword")
     public void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword ) {
         User userToUpdate = getById(id);
